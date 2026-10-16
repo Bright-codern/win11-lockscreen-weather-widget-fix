@@ -5,7 +5,7 @@
 | **项目名** | `win11-lockscreen-weather-widget-fix` |
 | **交接日期** | 2026-10-16 |
 | **文档版本** | v1.0 |
-| **当前状态** | ✅ 修复方案已验证有效；仓库内容已完成；**未推送到 GitHub** |
+| **当前状态** | ✅ 已开源：<https://github.com/Bright-codern/win11-lockscreen-weather-widget-fix>（2026-10-16 推送） |
 | **接手需知** | 见 [第 4 节 技术核心](#4-技术核心接手必读)，这是全篇最重要的一节 |
 
 ---
@@ -47,13 +47,14 @@ Windows 11 用户（本机）遇到问题：
 | 英文 README | `README.en.md` | ✅ 完成 |
 | 排查记录 | `docs/INVESTIGATION.md` | ✅ 完成 |
 | 交接文档 | `HANDOVER.md`（本文） | ✅ 完成 |
-| **推送到 GitHub** | 建仓 + push | ⬜ **未做，需接手方完成** |
-| 打 Release | `v1.0.0` tag | ⬜ 未做 |
+| **推送到 GitHub** | 建仓 + push | ✅ 完成（2026-10-16） |
+| 打 Release | `v1.0.0` tag | ✅ 完成 |
 | 社区运营 | Issue 回复、扩散 | ⬜ 未做 |
 
-> ⚠️ **接手第一件事**：本机**没有安装 Git**。推送前需要先安装
-> <https://git-scm.com/download/win>（或用 GitHub Desktop），
-> 然后按 [第 10.4 节](#104-推送到-github) 的命令推送。
+> ℹ️ **接手需知**：仓库已建好并推送完成，远端为 `origin`
+> （<https://github.com/Bright-codern/win11-lockscreen-weather-widget-fix>）。
+> 本机可用的 Git 为 2.53.0，GitHub 凭据已保存在 Windows 凭据管理器（GCM）中，
+> 直接 `git push` 即可，无需再配置。后续流程见 [第 10.4 节](#104-推送到-github)。
 
 ---
 
@@ -105,8 +106,12 @@ Windows 11 用户（本机）遇到问题：
 
 ### 4.1 问题本质
 
-灰色按钮**不是**"禁用"，而是微软定义的"**该小组件已经添加过了**"
-（出处：微软支持文档《在 Windows 中自定义锁屏界面》）。
+灰色按钮**不是**"禁用"，而是表示"**该小组件已经添加过了**"。
+
+⚠️ **注意出处**：微软支持文档《在 Windows 中自定义锁屏界面》里只写了
+"目前，只有支持小尺寸的小组件才能添加到锁屏界面"这一条限制，**并没有**关于灰色按钮的表述。
+"灰 = 已添加"来自 elevenforum 的锁屏小组件教程。本仓库于 2026-10-16 复核了微软中英文支持文档，
+确认该句不是官方原文 —— **对外表述时不要写成"微软官方定义"**。
 
 也就是说：**Windows 认为天气已经在锁屏上了，但锁屏上实际没有。**
 记录状态 ≠ 渲染状态 —— 这就是整个 bug。
@@ -185,11 +190,11 @@ HasLockCanvasWithRecommendationsMigratedFromLockCanvasV1   = 1
 
 ### 5.1 必做
 
-- [ ] **装 Git 并推送到 GitHub**（见 [10.4](#104-推送到-github)）
-- [ ] 确认仓库描述与 Topics（建议值见 [10.5](#105-建议的仓库信息)）
-- [ ] 打 `v1.0.0` tag 并写 Release Notes
+- [x] **推送到 GitHub**（2026-10-16 完成，见 [10.4](#104-推送到-github)）
+- [x] 仓库描述与 Topics（已按 [10.5](#105-建议的仓库信息) 设置）
+- [x] 打 `v1.0.0` tag
 - [ ] 在微软 Q&A 帖 [#6021021](https://learn.microsoft.com/en-us/answers/questions/6021021/weather-lock-screen-widget-add-button-remains-gray)
-      下回复本方案（**这是最快的曝光渠道**，帖子里有 3 个人标记了同样问题）
+      下回复本方案（**这是最快的曝光渠道**，提问者已试遍官方建议、目前仍无解）
 
 ### 5.2 可选增强
 
@@ -393,33 +398,45 @@ powershell -ExecutionPolicy Bypass -File .\scripts\Fix-LockScreenWeatherWidget.p
 
 ### 10.4 推送到 GitHub
 
-> 前置：先安装 Git <https://git-scm.com/download/win>（本机目前**没有**）
+> ✅ **已完成**（2026-10-16）：远端 `origin` =
+> <https://github.com/Bright-codern/win11-lockscreen-weather-widget-fix>，
+> `main` 分支与 `v1.0.0` tag 均已推送。
+
+在**新机器**上继续维护时：
+
+```powershell
+git clone https://github.com/Bright-codern/win11-lockscreen-weather-widget-fix.git
+cd win11-lockscreen-weather-widget-fix
+
+# 日常修改
+git add -A
+git commit -m "docs: ..."
+git push
+```
+
+首次推送时的完整流程（**留档，勿重复执行**）：
 
 ```powershell
 cd "$env:USERPROFILE\Documents\默认项目\lockscreen-weather-widget-fix"
 
-git init
-git add .
-git commit -m "fix: Windows 11 锁屏天气小组件无法添加（添加按钮灰色不可点）"
-git branch -M main
-
-# 先在 GitHub 上建一个空仓库（不要勾选 README/.gitignore/License）
-git remote add origin https://github.com/<用户名>/<仓库名>.git
+git init -b main
+git add -A
+git commit -m "fix: 修复 Windows 11 锁屏天气小组件添加按钮灰色不可点"
+git remote add origin https://github.com/Bright-codern/win11-lockscreen-weather-widget-fix.git
 git push -u origin main
 
-# 打 tag
 git tag -a v1.0.0 -m "v1.0.0 首个可用版本"
 git push origin v1.0.0
 ```
 
 ### 10.5 建议的仓库信息
 
-| 项目 | 建议 |
+| 项目 | 建议（均已采用 ✅） |
 |---|---|
 | 仓库名 | `win11-lockscreen-weather-widget-fix` |
 | 描述（英文，利于搜索） | Fix Windows 11 lock screen weather widget: greyed-out "Add widget" button (25H2/26H2). Resets the stale `LockState` in WidgetsPlatformRuntime — which every "reset LocalState" guide misses. |
 | Topics | `windows-11` `bug-fix` `powershell` `widgets` `lock-screen` `windows-11-25h2` `windows-11-26h2` |
-| Release | `v1.0.0`，附上 README 的「已确认无效的方案」表格 |
+| Release | `v1.0.0` ✅ 已发布，说明里附上 README 的「已确认无效的方案」表格 |
 
 ### 10.6 建议的曝光渠道
 
