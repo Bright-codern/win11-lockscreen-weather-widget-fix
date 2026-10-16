@@ -53,8 +53,11 @@ Windows 11 用户（本机）遇到问题：
 
 > ℹ️ **接手需知**：仓库已建好并推送完成，远端为 `origin`
 > （<https://github.com/Bright-codern/win11-lockscreen-weather-widget-fix>）。
-> 本机可用的 Git 为 2.53.0，GitHub 凭据已保存在 Windows 凭据管理器（GCM）中，
-> 直接 `git push` 即可，无需再配置。后续流程见 [第 10.4 节](#104-推送到-github)。
+> ⚠️ 注意：本机**系统 PATH 里没有 Git**，本次推送用的是 Codex 运行时自带的那一份
+> （`%USERPROFILE%\.cache\codex-runtimes\...\git\cmd\git.exe`，版本 2.53.0）。
+> 想在普通终端里操作，请先安装 <https://git-scm.com/download/win>，或临时把上面的路径加进 PATH。
+> GitHub 凭据已保存在 Windows 凭据管理器（GCM）中，直接 `git push` 即可，无需再配置。
+> 后续流程见 [第 10.4 节](#104-推送到-github)。
 
 ---
 
